@@ -5,8 +5,8 @@ from flask_restful import Api, Resource, reqparse
 import db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./db/sqlite.db'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./db/sqlite.db'
+# db = SQLAlchemy(app)
 api = Api(app)
 
 class TgMsgsRawResource(Resource):
