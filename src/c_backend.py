@@ -57,9 +57,14 @@ class TgMsgsRawResource(Resource):
                     'tg_msg': tg_msg_raw.tg_msg,
                     'tg_media': media_response,
                 }
+
+                if tg_media:
+                    result['tg_file_path'] = tg_media.tg_file_path if tg_media else None,
+
+
                 results.append(result)
 
-        return {'data': results}
+        return {'data': results, 'page_count':10000}
 
 api.add_resource(TgMsgsRawResource, '/tg_msgs_raw')
 
