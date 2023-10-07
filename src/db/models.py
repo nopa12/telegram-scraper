@@ -21,8 +21,6 @@ class TgMedia(Base):
     __tablename__ = 'tg_images'
 
     id = Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    tg_id = Column(Integer, index=True, nullable=False)
-    tg_chat_id = Column(Integer, index=True, nullable=False)
-    tg_chat = Column(String, nullable=False)
-    tg_is_photo = Column(Boolean, nullable=False)
+    tg_msg_id = Column(Uuid(as_uuid=True), nullable=False, index=True)
+    
     tg_file_path = Column(UnicodeText)
