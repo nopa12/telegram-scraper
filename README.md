@@ -1,16 +1,12 @@
-Install
 ```
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+# 1. install
+./install.sh
+./create_migrations.sh
+./migrate.sh
 
-Run
-1. first get session string:
-```
+# 2. get session string:
 ./a_tg_get_session_string.sh
-```
-2. Then to run scrapper:
-```
-./run_scrapper.sh
+
+# 3. run
+./b_run_scrapper.sh
 ```
