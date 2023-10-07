@@ -1,52 +1,25 @@
-SAVE_TO_DIR = 'message_archive'
-
-CHANNELS = [
-    "hamas",
-    "palestine_aqsaa",
-    "PalpostN",
-    "gazaalannet"
-]
-
 import asyncio
 import datetime
 import os
 import time
-
-import sqlalchemy
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
 from dotenv import load_dotenv
 load_dotenv()
 
-import db
-
 class MessageExistsException(Exception): pass
-
-def tg_add_media_to_msg(msg_id, tg_file_path: str):
-    with db.transaction_context() as conn:
-        msg = conn.query(db.TgMsgsRaw).filter_by(id=msg_id).first()
-        if not msg:
-            print(f"message not found for {msg}")
-            return
-        
-        print(f"adding media for message {msg.id}")
-        db_tg_media = db.TgMedia(tg_msg_id=msg.id, tg_file_path=tg_file_path)
-        conn.add(db_tg_media)
-        conn.flush()
     
 def tg_msgs_create_if_not_exists(td_id: int, td_date: datetime.date, tg_chat: str, tg_chat_id: int, tg_msg: str):
-    with db.transaction_context() as conn:
-        existing_msg = conn.query(db.TgMsgsRaw).filter_by(tg_id=td_id, tg_chat_id=tg_chat_id).first()
-        if existing_msg:
-            print(f"message {tg_chat_id} {td_id} exists")
-            raise MessageExistsException()
-        
-        print(f"adding message {td_id}")
-        db_tg_msg = db.TgMsgsRaw(tg_id=td_id, tg_date=td_date, tg_chat=tg_chat, tg_chat_id=tg_chat_id, tg_msg=tg_msg)
-        conn.add(db_tg_msg)
-        conn.flush()
-        return db_tg_msg.id
+    _dir = os.path.join(os.environ['FILES_DIR'], tg_chat)
+    os.makedirs(_dir, exist_ok=True)
+
+    clean_date = str(td_date).replace(':', '_')
+    clean_date = clean_date.replace('+', '_')
+    clean_date = clean_date.replace(' ', '__')
+    f_path = os.path.join(_dir, f'message_{td_id}_{clean_date}.txt')
+    if not os.path.exists(f_path):
+        open(f_path, 'wb').write(tg_msg.encode('utf-8'))
 
 async def pull_messages(shutdown_path):
     all = 20 # How many messages to pull backwards
@@ -90,7 +63,7 @@ async def pull_tg_channel_msgs_async(channel_username, limit, shutdown_path):
                         print(f"downloading {file_name} ...")
                         await client.download_media(message.media, file_name)
                         print(f"downloaded {file_name}")
-                        tg_add_media_to_msg(msg_id, os.path.abspath(file_name))
+                        #tg_add_media_to_msg(msg_id, os.path.abspath(file_name))
 
                     r = True
                 except MessageExistsException:
