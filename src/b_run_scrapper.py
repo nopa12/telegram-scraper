@@ -49,7 +49,7 @@ def tg_msgs_create_if_not_exists(td_id: int, td_date: datetime.date, tg_chat: st
         return db_tg_msg.id
 
 async def pull_messages(shutdown_path):
-    all = 15
+    all = 20 # How many messages to pull backwards
     task1 = pull_tg_channel_msgs_async("hamas", all, shutdown_path)
     task2 = pull_tg_channel_msgs_async("palestine_aqsaa", all, shutdown_path)
     task3 = pull_tg_channel_msgs_async("PalpostN", all, shutdown_path)
