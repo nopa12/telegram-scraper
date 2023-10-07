@@ -63,4 +63,4 @@ class TgMsgsRawResource(Resource):
 api.add_resource(TgMsgsRawResource, '/tg_msgs_raw')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5030)
