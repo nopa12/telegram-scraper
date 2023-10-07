@@ -2,6 +2,7 @@
 
 import sys
 import os
+import time
 
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
@@ -17,7 +18,7 @@ async def save_message(message, channel_name):
         channel_directory = os.path.join(SAVE_TO_DIR, channel_name)
         os.makedirs(channel_directory, exist_ok=True)
 
-        message_file = os.path.join(channel_directory, f'message_{message.id}_.txt')
+        message_file = os.path.join(channel_directory, f'message_{message.id}_{time.time()}.txt')
         print(f"saving message {message.id} to {message_file}")
         with open(message_file, 'w', encoding='utf-8') as file:
             file.write(message.text)
