@@ -1,12 +1,15 @@
 ```
 # 1. install
-./install.sh
-./create_migrations.sh
-./migrate.sh
+./install.bat
+./create_migrations.bat
+./migrate.bat
 
 # 2. get session string:
-./a_tg_get_session_string.sh
+./a_tg_get_session_string.bat
 
 # 3. run
-./b_run_scrapper.sh
+./b_run_scrapper.bat
+
+# 4. backend
+./c_run_backend.bat
 ```
