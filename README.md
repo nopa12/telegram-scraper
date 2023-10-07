@@ -12,4 +12,7 @@
 
 # 4. backend
 ./c_run_backend.bat
+
+# 5. fronend
+./d_run_frontend.bat
 ```
